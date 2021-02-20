@@ -1,0 +1,168 @@
+type Song {
+  id: ID!
+  title: String!
+  description: String!
+  filePath: String!
+  like: Int!
+  owner: String!
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+}
+
+enum ModelSortDirection {
+  ASC
+  DESC
+}
+
+type ModelSongConnection {
+  items: [Song]
+  nextToken: String
+}
+
+input ModelStringInput {
+  ne: String
+  eq: String
+  le: String
+  lt: String
+  ge: String
+  gt: String
+  contains: String
+  notContains: String
+  between: [String]
+  beginsWith: String
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+  size: ModelSizeInput
+}
+
+input ModelIDInput {
+  ne: ID
+  eq: ID
+  le: ID
+  lt: ID
+  ge: ID
+  gt: ID
+  contains: ID
+  notContains: ID
+  between: [ID]
+  beginsWith: ID
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+  size: ModelSizeInput
+}
+
+input ModelIntInput {
+  ne: Int
+  eq: Int
+  le: Int
+  lt: Int
+  ge: Int
+  gt: Int
+  between: [Int]
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelFloatInput {
+  ne: Float
+  eq: Float
+  le: Float
+  lt: Float
+  ge: Float
+  gt: Float
+  between: [Float]
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelBooleanInput {
+  ne: Boolean
+  eq: Boolean
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelSizeInput {
+  ne: Int
+  eq: Int
+  le: Int
+  lt: Int
+  ge: Int
+  gt: Int
+  between: [Int]
+}
+
+input ModelSongFilterInput {
+  id: ModelIDInput
+  title: ModelStringInput
+  description: ModelStringInput
+  filePath: ModelStringInput
+  like: ModelIntInput
+  owner: ModelStringInput
+  and: [ModelSongFilterInput]
+  or: [ModelSongFilterInput]
+  not: ModelSongFilterInput
+}
+
+enum ModelAttributeTypes {
+  binary
+  binarySet
+  bool
+  list
+  map
+  number
+  numberSet
+  string
+  stringSet
+  _null
+}
+
+type Query {
+  getSong(id: ID!): Song
+  listSongs(filter: ModelSongFilterInput, limit: Int, nextToken: String): ModelSongConnection
+}
+
+input CreateSongInput {
+  id: ID
+  title: String!
+  description: String!
+  filePath: String!
+  like: Int!
+  owner: String!
+}
+
+input UpdateSongInput {
+  id: ID!
+  title: String
+  description: String
+  filePath: String
+  like: Int
+  owner: String
+}
+
+input DeleteSongInput {
+  id: ID
+}
+
+type Mutation {
+  createSong(input: CreateSongInput!, condition: ModelSongConditionInput): Song
+  updateSong(input: UpdateSongInput!, condition: ModelSongConditionInput): Song
+  deleteSong(input: DeleteSongInput!, condition: ModelSongConditionInput): Song
+}
+
+input ModelSongConditionInput {
+  title: ModelStringInput
+  description: ModelStringInput
+  filePath: ModelStringInput
+  like: ModelIntInput
+  owner: ModelStringInput
+  and: [ModelSongConditionInput]
+  or: [ModelSongConditionInput]
+  not: ModelSongConditionInput
+}
+
+type Subscription {
+  onCreateSong: Song @aws_subscribe(mutations: ["createSong"])
+  onUpdateSong: Song @aws_subscribe(mutations: ["updateSong"])
+  onDeleteSong: Song @aws_subscribe(mutations: ["deleteSong"])
+}

@@ -1,0 +1,14 @@
+{
+    "CreateAPIKey": 0,
+    "AppSyncApiName": "songApi",
+    "DynamoDBBillingMode": "PAY_PER_REQUEST",
+    "DynamoDBEnableServerSideEncryption": false,
+    "AuthCognitoUserPoolId": {
+        "Fn::GetAtt": [
+            "authreactamplify852d686c",
+            "Outputs.UserPoolId"
+        ]
+    },
+    "S3DeploymentBucket": "amplify-reactamplify-reactserve-190819-deployment",
+    "S3DeploymentRootKey": "amplify-appsync-files/8e86b731e2bfb6103b19e316b7c0a7540bf74075"
+}
